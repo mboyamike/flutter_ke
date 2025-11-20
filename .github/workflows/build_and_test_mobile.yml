@@ -26,16 +26,10 @@ jobs:
       - uses: actions/setup-java@v2
         with:
           distribution: "zulu"
-          java-version: "11"
+          java-version: "19"
       - uses: subosito/flutter-action@v2
         with:
           channel: "stable"
-
-      - uses: SpicyPizza/create-envfile@v2.0
-        with: 
-          envkey_SUPABASE_URL: ${{ secrets.SUPABASE_URL }}
-          envkey_SUPABASE_ANON: ${{ secrets.SUPABASE_ANON }}
-          directory: mobile
           
       - name: Get dependencies
         run: flutter pub get
