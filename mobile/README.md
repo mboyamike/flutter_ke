@@ -1,71 +1,16 @@
 # mobile
 
-The Flutter Devs ke mobile application
+A new Flutter project.
 
 ## Getting Started
 
-This project is a starting point for the flutter devs ke mobile app
-Since the application is made using flutter, you will first have to install and set up [Flutter](https://docs.flutter.dev/get-started/install)
+This project is a starting point for a Flutter application.
 
-Fork this repository
-Clone the forked repository. Replace "[Git username]" with your GitHub username
+A few resources to get you started if this is your first Flutter project:
 
-```
-    git clone https://github.com/[Git username]/flutter_ke.git
-```
+- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
+- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
 
-Go to the mobile folder:
-
-```
-    cd mobile
-```
-
-Get the dependencies
-
-```
-    flutter pub get
-```
-
-Use build_runner to generate required files
-```
-    dart run build_runner watch
-```
-
-Finally run the project and make changes as you wish
-```
-    flutter run
-```
-
-## Documentation  
-
-### Code generation
-
-This project uses code generation through freezed and riverpod. Code generation can be a divisive topic.
-[Here's why we chose to use code generation](https://medium.com/@michael.mboya/flutter-why-generate-code-42c09fd386a3)
-
-### State Management - Riverpod
-
-State management is a hot topic within flutter. The choice of one greatly impacts the arhitecture of
-the app. This [article](https://medium.com/@michael.mboya/building-flutter-kenya-why-we-use-riverpod-b7fc334a27d1) explains the reasoning behind choosing riverpod
-
-### Routing package - gorouter  
-
-[gorouter](https://pub.dev/) on pub.dev.  
-Gorouter is a routing package for flutter that uses the Router API providing convinient, url-based API for navigating between different screens.  
-We chose gorouter for our project because you can define url patterns, handle url navigation, deep linking and its rich set of features.  
-
-Features and pros of using gorouter  
-- Named routes  
-- Parsing path and query params with a templet syntax, eg "user/:id"  
-- Subroutes - displaying multiple screens for a destination  
-- Supports redirection  
-- Support for multiple navigators via [ShellRoute](https://pub.dev/documentation/go_router/latest/go_router/ShellRoute-class.html)  
-- Supports both Material and Cupertino apps  
-- Type-safe routes  
-- Custom transitions and animations  
-- Elegant and declarative approach to routing  
-
-Cons of using gorouter  
-- There is a potential increase in the size of our application due to using gorouter package.  
-- Learning curve, Our contributers that have been using the default inbuilt routing package will have to familiarize and learn how to use it.
-
+For help getting started with Flutter development, view the
+[online documentation](https://docs.flutter.dev/), which offers tutorials,
+samples, guidance on mobile development, and a full API reference.

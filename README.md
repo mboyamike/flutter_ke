@@ -15,7 +15,7 @@ Flutter Devs Kenya is a community of Flutter enthusiasts, developers, and learne
 
 ## Project Details 🛠️
 
-- **Website:** Built using Nuxt 3 for modern web applications. 💻
+- **Website:** Built using Jaspr. 💻
 - **Mobile App:** Flutter-based app for convenient access. 📱
 
 ## Get Involved 🙌
