@@ -1,4 +1,4 @@
-package ke.flutternairobi.mobile
+package com.flutternairobi.mobile
 
 import io.flutter.embedding.android.FlutterActivity
 
