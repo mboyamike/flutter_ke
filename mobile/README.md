@@ -60,7 +60,22 @@ The project uses a **mix of layer-first and feature-first** organization. There 
    flutter pub run build_runner build
    ```
 
-5. **Run the app**
+5. **Configure Supabase**
+
+   The app uses **Supabase** and reads the Supabase URL and anonymous key from a `.env` file in the `mobile` directory. Contributors need to:
+
+   - Create a [Supabase](https://supabase.com) project (or use an existing one).
+   - In the Supabase dashboard, copy the **Project URL** and **anon public** key.
+   - Create a `.env` file in the `mobile` folder with:
+
+   ```
+   SUPABASE_URL=your_project_url
+   SUPABASE_ANON_KEY=your_anon_key
+   ```
+
+   Replace `your_project_url` and `your_anon_key` with the values from your Supabase project settings.
+
+6. **Run the app**
 
    ```bash
    flutter run
