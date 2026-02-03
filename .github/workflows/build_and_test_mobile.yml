@@ -30,7 +30,12 @@ jobs:
       - uses: subosito/flutter-action@v2
         with:
           channel: "beta"
-          
+
+      - name: Create .env with Supabase secrets
+        run: |
+          echo "SUPABASE_URL=${{ secrets.SUPABASE_URL }}" >> .env
+          echo "SUPABASE_ANON_KEY=${{ secrets.SUPABASE_ANON_KEY }}" >> .env
+
       - name: Get dependencies
         run: flutter pub get
 
