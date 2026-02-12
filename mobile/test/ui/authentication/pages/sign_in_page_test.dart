@@ -13,8 +13,7 @@ void main() {
   late MockAuthRepository mockAuthRepository;
   late AppRouter router;
 
-  Future<void> pumpSignUpPage(WidgetTester tester) async {
-    
+  Future<void> pumpSignInPage(WidgetTester tester) async {
     await tester.pumpWidget(
       ProviderScope(
         overrides: [
@@ -23,13 +22,12 @@ void main() {
         child: MaterialApp.router(routerConfig: router.config()),
       ),
     );
-    
+
     await tester.pumpAndSettle();
-    
-    router.push(const SignUpRoute());
-    
+
+    router.push(const SignInRoute());
+
     await tester.pumpAndSettle();
-    
   }
 
   setUp(() {
@@ -39,36 +37,32 @@ void main() {
     when(() => mockAuthRepository.currentUser()).thenReturn(null);
     when(() => mockAuthRepository.userStream()).thenAnswer((_) => Stream.empty());
     when(
-      () => mockAuthRepository.signUpWithEmailAndPassword(
+      () => mockAuthRepository.signInWithEmailAndPassword(
         email: any(named: 'email'),
         password: any(named: 'password'),
       ),
     ).thenAnswer((_) async => null);
   });
 
-  testWidgets('renders sign up form fields and CTA', (tester) async {
-    
-    await pumpSignUpPage(tester);
-    
+  testWidgets('renders sign in form fields and CTA', (tester) async {
+    await pumpSignInPage(tester);
 
-    expect(find.text('Sign Up'), findsOneWidget);
-    expect(find.byKey(const ValueKey('sign_up_email')), findsOneWidget);
-    expect(find.byKey(const ValueKey('sign_up_password')), findsOneWidget);
-    expect(find.byKey(const ValueKey('sign_up_confirm_password')), findsOneWidget);
-    expect(find.widgetWithText(FilledButton, 'Sign up'), findsOneWidget);
+    expect(find.text('Sign In'), findsOneWidget);
+    expect(find.byKey(const ValueKey('sign_in_email')), findsOneWidget);
+    expect(find.byKey(const ValueKey('sign_in_password')), findsOneWidget);
+    expect(find.widgetWithText(FilledButton, 'Sign in'), findsOneWidget);
   });
 
   testWidgets('shows validation errors when fields are empty', (tester) async {
-    await pumpSignUpPage(tester);
+    await pumpSignInPage(tester);
 
-    await tester.tap(find.widgetWithText(FilledButton, 'Sign up'));
+    await tester.tap(find.widgetWithText(FilledButton, 'Sign in'));
     await tester.pumpAndSettle();
 
     expect(find.text('Email is required'), findsOneWidget);
     expect(find.text('Password is required'), findsOneWidget);
-    expect(find.text('Confirm your password'), findsOneWidget);
     verifyNever(
-      () => mockAuthRepository.signUpWithEmailAndPassword(
+      () => mockAuthRepository.signInWithEmailAndPassword(
         email: any(named: 'email'),
         password: any(named: 'password'),
       ),
@@ -76,52 +70,44 @@ void main() {
   });
 
   testWidgets('shows invalid email message', (tester) async {
-    await pumpSignUpPage(tester);
+    await pumpSignInPage(tester);
 
-    await tester.enterText(find.byKey(const ValueKey('sign_up_email')), 'invalid');
+    await tester.enterText(find.byKey(const ValueKey('sign_in_email')), 'invalid');
     await tester.enterText(
-      find.byKey(const ValueKey('sign_up_password')),
-      'password123',
-    );
-    await tester.enterText(
-      find.byKey(const ValueKey('sign_up_confirm_password')),
+      find.byKey(const ValueKey('sign_in_password')),
       'password123',
     );
 
-    await tester.tap(find.widgetWithText(FilledButton, 'Sign up'));
+    await tester.tap(find.widgetWithText(FilledButton, 'Sign in'));
     await tester.pumpAndSettle();
 
     expect(find.text('Please enter a valid email address'), findsOneWidget);
     verifyNever(
-      () => mockAuthRepository.signUpWithEmailAndPassword(
+      () => mockAuthRepository.signInWithEmailAndPassword(
         email: any(named: 'email'),
         password: any(named: 'password'),
       ),
     );
   });
 
-  testWidgets('shows mismatched passwords message', (tester) async {
-    await pumpSignUpPage(tester);
+  testWidgets('shows minimum password length message', (tester) async {
+    await pumpSignInPage(tester);
 
     await tester.enterText(
-      find.byKey(const ValueKey('sign_up_email')),
+      find.byKey(const ValueKey('sign_in_email')),
       'tester@example.com',
     );
-    await tester.enterText(
-      find.byKey(const ValueKey('sign_up_password')),
-      'password123',
-    );
-    await tester.enterText(
-      find.byKey(const ValueKey('sign_up_confirm_password')),
-      'different-password',
-    );
+    await tester.enterText(find.byKey(const ValueKey('sign_in_password')), 'short');
 
-    await tester.tap(find.widgetWithText(FilledButton, 'Sign up'));
+    await tester.tap(find.widgetWithText(FilledButton, 'Sign in'));
     await tester.pumpAndSettle();
 
-    expect(find.text('Passwords do not match'), findsOneWidget);
+    expect(
+      find.text('Password must be at least 8 characters'),
+      findsOneWidget,
+    );
     verifyNever(
-      () => mockAuthRepository.signUpWithEmailAndPassword(
+      () => mockAuthRepository.signInWithEmailAndPassword(
         email: any(named: 'email'),
         password: any(named: 'password'),
       ),
@@ -129,26 +115,22 @@ void main() {
   });
 
   testWidgets('submits with valid values and navigates to home', (tester) async {
-    await pumpSignUpPage(tester);
+    await pumpSignInPage(tester);
 
     await tester.enterText(
-      find.byKey(const ValueKey('sign_up_email')),
+      find.byKey(const ValueKey('sign_in_email')),
       'tester@example.com',
     );
     await tester.enterText(
-      find.byKey(const ValueKey('sign_up_password')),
-      'password123',
-    );
-    await tester.enterText(
-      find.byKey(const ValueKey('sign_up_confirm_password')),
+      find.byKey(const ValueKey('sign_in_password')),
       'password123',
     );
 
-    await tester.tap(find.widgetWithText(FilledButton, 'Sign up'));
+    await tester.tap(find.widgetWithText(FilledButton, 'Sign in'));
     await tester.pumpAndSettle();
 
     verify(
-      () => mockAuthRepository.signUpWithEmailAndPassword(
+      () => mockAuthRepository.signInWithEmailAndPassword(
         email: 'tester@example.com',
         password: 'password123',
       ),
@@ -156,32 +138,29 @@ void main() {
     expect(find.byWidgetPredicate((widget) => widget is HomePage), findsOneWidget);
   });
 
-  testWidgets('shows snackbar when sign up fails', (tester) async {
+  testWidgets('shows snackbar when sign in fails', (tester) async {
     when(
-      () => mockAuthRepository.signUpWithEmailAndPassword(
+      () => mockAuthRepository.signInWithEmailAndPassword(
         email: any(named: 'email'),
         password: any(named: 'password'),
       ),
     ).thenThrow(Exception('boom'));
 
-    await pumpSignUpPage(tester);
+    await pumpSignInPage(tester);
 
     await tester.enterText(
-      find.byKey(const ValueKey('sign_up_email')),
+      find.byKey(const ValueKey('sign_in_email')),
       'tester@example.com',
     );
     await tester.enterText(
-      find.byKey(const ValueKey('sign_up_password')),
-      'password123',
-    );
-    await tester.enterText(
-      find.byKey(const ValueKey('sign_up_confirm_password')),
+      find.byKey(const ValueKey('sign_in_password')),
       'password123',
     );
 
-    await tester.tap(find.widgetWithText(FilledButton, 'Sign up'));
+    await tester.tap(find.widgetWithText(FilledButton, 'Sign in'));
     await tester.pumpAndSettle();
 
-    expect(find.text('An error occurred during signing up'), findsOneWidget);
+    expect(find.text('An error occurred during signing in'), findsOneWidget);
   });
+
 }
