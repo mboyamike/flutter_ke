@@ -175,7 +175,7 @@ class SignInForm extends HookConsumerWidget {
                   const Text('Sign in'),
                   if (signInState is MutationPending) ...[
                     const SizedBox(width: 8),
-                    const CircularProgressIndicator(),
+                    const SizedBox.square(dimension: 14, child: CircularProgressIndicator(strokeWidth: 2,)),
                   ],
                 ],
               ),

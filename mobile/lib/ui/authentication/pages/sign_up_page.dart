@@ -214,7 +214,7 @@ class SignUpForm extends HookConsumerWidget {
                     const Text('Sign up'),
                     if (signUpState is MutationPending) ...[
                       const SizedBox(width: 8),
-                      const CircularProgressIndicator(),
+                      const SizedBox.square(dimension: 14, child: CircularProgressIndicator(strokeWidth: 2,)),
                     ],
                   ],
                 ),
